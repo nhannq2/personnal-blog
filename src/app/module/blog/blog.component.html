@@ -1,0 +1,33 @@
+<article class="blog-post px-3 py-3 p-md-3">
+    <div class="container single-col-max-width">
+        <ng-container *ngIf="currentRoute$|async as route">
+            <header class="blog-post-header">
+                <h2 class="title mb-2">{{route?.title}}</h2>
+                <div class="meta mb-3">
+                    <span class="date">{{route?.publishedAt | date}}</span>
+                    <span class="date" *ngFor="let tag of route?.tags">
+                        <a
+                            [routerLink]="['/']"
+                            [queryParams]="{t: tag || null}"
+                        >{{tag}}</a>
+                    </span>
+                </div>
+            </header>
+            
+            <div class="blog-post-body">
+                <figure class="blog-banner">
+                    <img class="img-fluid" [src]="route?.cover || BLOG_DEFAULT_COVER" alt="image">
+                </figure>
+                <p>{{route?.description}}</p>
+                <hr>
+            </div>
+        </ng-container>
+        
+        <div class="blog-post-body">
+            <scully-content></scully-content>
+            <hr />
+            <div *ngIf="GISCUS_DATA_REPO_ID" [appGiscus]="!isProd"></div>
+            <ng-adsense *ngIf="AD_SLOT" [adSlot]="AD_SLOT"></ng-adsense>
+        </div>
+    </div>
+</article>
